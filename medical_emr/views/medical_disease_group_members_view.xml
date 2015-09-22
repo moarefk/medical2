@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-        <record id="view_medical_disease_group_members_search" model="ir.ui.view">
+        <record id="medical_disease_view_group_members_search" model="ir.ui.view">
             <field name="name">medical.disease_group.members.search</field>
             <field name="model">medical.disease_group.members</field>
             <field name="arch" type="xml">
@@ -18,7 +18,7 @@
             </field>
         </record>
 
-        <record id="view_medical_disease_group_members_tree" model="ir.ui.view">
+        <record id="medical_disease_view_group_members_tree" model="ir.ui.view">
             <field name="name">medical.disease_group.members.tree</field>
             <field name="model">medical.disease_group.members</field>
             <field name="arch" type="xml">
@@ -29,7 +29,7 @@
             </field>
         </record>
 
-        <record id="view_medical_disease_group_members_form" model="ir.ui.view">
+        <record id="medical_disease_view_group_members_form" model="ir.ui.view">
             <field name="name">medical.disease_group.members.form</field>
             <field name="model">medical.disease_group.members</field>
             <field name="arch" type="xml">
@@ -64,14 +64,14 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="act_open_medical_disease_group_members_view">
+        <record model="ir.actions.act_window" id="medical_disease_group_members_action">
             <field name="name">Disease Group Members</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">medical.disease_group.members</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_medical_disease_group_members_form" />
-            <field name="search_view_id" ref="view_medical_disease_group_members_search" />
+            <field name="view_id" ref="medical_disease_view_group_members_form" />
+            <field name="search_view_id" ref="medical_disease_view_group_members_search" />
             <field name="domain">[]</field>
             <field name="context">{}</field>
         </record>
