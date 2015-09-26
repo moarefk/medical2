@@ -24,7 +24,7 @@ from openerp import fields, models
 
 class MedicalPrescriptionOrder(models.Model):
     _inherit = 'medical.prescription.order'
-    
+
     state = field.Selection([
         ('draft', 'Draft'),
         ('progress', 'Open'),
@@ -36,3 +36,4 @@ class MedicalPrescriptionOrder(models.Model):
         ('cancel', 'Canceled'),
         ('dispensed', 'Dispensed'),
     ])
+    image = fields.Binary()
