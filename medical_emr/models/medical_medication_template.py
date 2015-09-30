@@ -25,6 +25,7 @@ from openerp.osv import fields, orm
 
 class MedicalMedicationTemplate(orm.Model):
     _name = 'medical.medication.template'
+    _description = 'Medicament + Rx attributes such as qty and dosages'
 
     def _get_name(self, cr, uid, ids, field_name, arg, context=None):
         res = {}

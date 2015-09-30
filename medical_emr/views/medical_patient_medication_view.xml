@@ -13,7 +13,7 @@
 					<field name="notes" />
 					<field name="is_active" />
 					<field name="is_course_complete" />
-					<field name="template_id" />
+					<field name="medication_id" />
 					<field name="discontinued_reason" />
 					<field name="is_discontinued" />
 				</tree>
@@ -32,7 +32,7 @@
 					<field name="notes" />
 					<field name="is_active" />
 					<field name="is_course_complete" />
-					<field name="template_id" />
+					<field name="medication_id" />
 					<field name="discontinued_reason" />
 					<field name="is_discontinued" />
 				</form>
@@ -51,7 +51,7 @@
 					<field name="notes" />
 					<field name="is_active" />
 					<field name="is_course_complete" />
-					<field name="template_id" />
+					<field name="medication_id" />
 					<field name="discontinued_reason" />
 					<field name="is_discontinued" />
 					<newline />
@@ -65,7 +65,7 @@
 						<filter string="Course Completed" domain="[]"
 							context="{'group_by':'is_course_complete'}" />
 						<filter string="Medication Template" domain="[]"
-							context="{'group_by':'template_id'}" />
+							context="{'group_by':'medication_id'}" />
 						<filter string="Reason for discontinuation" domain="[]"
 							context="{'group_by':'discontinued_reason'}" />
 						<filter string="Discontinued" domain="[]"

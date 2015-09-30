@@ -51,7 +51,7 @@ class MedicalPrescriptionLine(orm.Model):
     _columns = {
         'prescription_id': fields.many2one('medical.prescription.order',
                                            string='Prescription ID', ),
-        'template_id': fields.many2one('medical.medication.template',
+        'medication_id': fields.many2one('medical.medication.template',
                                        string='Medication', ),
         'disease_id': fields.many2one(
             'medical.pathology', string='Indication',
