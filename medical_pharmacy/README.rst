@@ -4,7 +4,7 @@
 Odoo Medical Pharmacy
 ========================
 
-Extension of medical_insurance that allows pharmacy functions
+Extension of medical_emr that allows pharmacy functions
 
 
 Usage

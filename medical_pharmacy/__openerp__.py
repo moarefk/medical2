@@ -35,7 +35,8 @@
     'category': 'Medical',
     'depends': [
         'stock',
-        'medical'
+        'medical',
+        'medical_emr',
     ],
     "website": "http://github.com/oca/vertical-medical",
     "licence": "AGPL-3",

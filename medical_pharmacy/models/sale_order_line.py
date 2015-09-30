@@ -18,6 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import medical_prescription_order
-from . import medical_prescription_line
-from . import sale_order_line
+
+from openerp import fields, models
+
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+
+    prescription_line_id = fields.Many2one('medical.prescription.order.line')

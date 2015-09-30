@@ -25,15 +25,46 @@ from openerp import fields, models
 class MedicalPrescriptionOrder(models.Model):
     _inherit = 'medical.prescription.order'
 
-    state = field.Selection([
-        ('draft', 'Draft'),
-        ('progress', 'Open'),
-        ('matched', 'Matched Sale'),
-        ('manual', 'To Invoice'),
-        ('dispense', 'To Dispense'),
-        ('dispense_except', 'Dispense Exception'),
-        ('invoice_except', 'Invoice Exception'),
-        ('cancel', 'Canceled'),
-        ('dispensed', 'Dispensed'),
-    ])
-    image = fields.Binary()
+    state = field.Selection(
+        [
+            ('draft', 'Draft'),
+            ('progress', 'Open'),
+            ('matched', 'Matched Sale'),
+            ('manual', 'To Invoice'),
+            ('dispense', 'To Dispense'),
+            ('dispense_except', 'Dispense Exception'),
+            ('verify_except', 'Verification Exception'),
+            ('invoice_except', 'Invoice Exception'),
+            ('cancel', 'Canceled'),
+            ('dispensed', 'Dispensed'),
+        ],
+        default = 'draft',
+        readonly = True,
+        string = 'Rx State',
+        help = 'Current workflow status of Rx',
+    )
+    receive_method = fields.Selection(
+        [
+            ('phone', 'Phoned In'),
+            ('fax', 'Physical Fax'),
+            ('mail', 'Physical Mail'),
+            ('transfer', 'Transferred In'),
+        ],
+        default = 'phone',
+        string = 'Receipt Method',
+        help = 'How the Rx was received',
+    )
+    verify_method = fields.Selection(
+        [
+            ('doctor_phone', 'Called Doctor')
+        ]
+    )
+    receive_date = fields.Datetime(
+        default = fields.Datetime.now,
+        string = 'Receipt Date',
+        help = 'When the Rx was received',
+    )
+    image = fields.Binary(
+        help = 'PNG representation of Rx',
+    )
+    

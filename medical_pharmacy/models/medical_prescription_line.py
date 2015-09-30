@@ -25,8 +25,13 @@ from openerp import fields, models
 class MedicalPrescriptionLine(models.Model):
     _inherit = 'medical.prescription.line'
 
-    prescription_id = fields.Many2one('medical.prescription.order')
-    dispense_ids = fields.One2many('stock.picking')
+    order_line_id = fields.Many2one(
+        'sale.order.line',
+    )
+    dispense_ids = fields.One2many(
+        'procurement.order',
+        related='order_line_id.procurement_ids',
+    )
     state = field.Selection([
         ('draft', 'Draft'),
         ('progress', 'Open'),
