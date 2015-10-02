@@ -45,6 +45,7 @@ class MedicalPrescriptionOrder(models.Model):
     )
     receive_method = fields.Selection(
         [
+            ('online', 'E-Prescription'),
             ('phone', 'Phoned In'),
             ('fax', 'Physical Fax'),
             ('mail', 'Physical Mail'),
