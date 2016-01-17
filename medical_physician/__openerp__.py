@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Tech-Receptives Solutions Pvt. Ltd.
-#    Copyright (C) 2004-TODAY Tech-Receptives(<http://www.techreceptives.com>)
-#    Special Credit and Thanks to Thymbra Latinoamericana S.A.
+#    Author: Dave Lasley <dave@laslabs.com>
+#    Copyright: 2014-2016 LasLabs, Inc. [https://laslabs.com]
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +19,22 @@
 #
 ##############################################################################
 
-from . import product_product
-from . import res_partner
-from . import medical_patient
-from . import medical_appointment
+{
+    'name': 'Medical Physician',
+    'version': '8.0.1.0.0',
+    'author': "LasLabs, Odoo Medical Team, Odoo Community Association (OCA)",
+    'category': 'Medical',
+    'depends': [
+        'medical',
+    ],
+    "website": "https://laslabs.com",
+    "licence": "AGPL-3",
+    "data": [
+        'views/medical_physician_view.xml',
+        'views/medical_specialty_view.xml',
+        'security/ir.model.access.csv',
+        'views/medical_menu.xml',
+    ],
+    "application": False,
+    'installable': True,
+}
