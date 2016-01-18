@@ -7,13 +7,13 @@
 ##############################################################################
 #
 #    Collaborators of this module:
+#    8.0 & 9.0: Dave Lasley <dave@laslabs.com>
 #    Special Credit and Thanks to Thymbra Latinoamericana S.A.
 #    Coded by: Parthiv Patel <parthiv@techreceptives.com>
 #    Coded by: Ruchir Shukla <ruchir@techreceptives.com>
 #    Coded by: Mario Arias   <support@cysfuturo.com>
 #    Planifyied by: Parthiv Patel <parthiv@techreceptives.com>
 #    Planifyied by: Nhomar Hernandéz <nhomar@vauxoo.com>
-#    8.0 & 9.0: Dave Lasley <dave@laslabs.com>
 #
 ##############################################################################
 #
@@ -21,6 +21,7 @@
 #    http://github.com/oca/vertical-medical
 #
 ##############################################################################
+#
 #    It is a collaborative effort between several companies that want to join
 #    efforts in have a proposal solid and strong in the Health Care environment
 #
@@ -43,8 +44,6 @@
     'version': '9.0.1.1.0',
     'category': 'Medical',
     'depends': [
-        'base',
-        'product',
         'medical_base_history',
     ],
     'author': "LasLabs, Odoo Medical Team, Odoo Community Association (OCA)",
@@ -52,7 +51,6 @@
     "licence": "AGPL-3",
     "data": [
         'views/medical_sequence.xml',
-        'views/product_product_view.xml',
         'views/res_partner_view.xml',
         'wizard/medical_physician_unavailable_view.xml',
         'views/medical_physician_view.xml',
