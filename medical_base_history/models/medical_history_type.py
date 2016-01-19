@@ -71,7 +71,7 @@ class MedicalHistoryType(models.Model):
     def _compute_display_name(self, ):
         ''' Compute name for representation to user '''
         for rec_id in self:
-            rec_id.display_name = '[%{code}s] %{prefix}s%{name}s%{suffix}s' % {
+            rec_id.display_name = '[%(code)s] %(prefix)s%(name)s%(suffix)s' % {
                 'code': self.code,
                 'name': self.name,
                 'prefix': self.prefix,
@@ -89,26 +89,16 @@ class MedicalHistoryType(models.Model):
                 )
 
     @api.model
-    def create(self, vals, ):
-        ''' Overload create & capitalize vals['code'] before save '''
-        vals['code'] = vals.get('code', '').capitalize()
-        return super(MedicalHistoryType, self).create(vals)
-
-    @api.multi
-    def write(self, vals, ):
-        ''' Overload write & capitalize vals['code'] before save '''
-        if vals.get('code'):
-            vals['code'] = vals['code'].capitalize()
-        return super(MedicalHistoryType, self).write(vals)
-
-    @api.model
     @api.returns('self')
     def get_by_code(self, code, ):
         '''
         Return a Recordset singleton for the code
-        :param code: History type code to search for
-        :type code: str
-        :rtype: Recordset Singleton
+
+        Args:
+            code: `str` of History Type code to search for
+
+        Returns:
+            `Recordset` Singleton of the History Type matching code
         '''
         return self.search([
             ('code', '=', code),
@@ -116,13 +106,17 @@ class MedicalHistoryType(models.Model):
 
     @api.model
     @api.returns('self')
-    def get_by_name(self, name, ):
+    def get_by_name(self, name, operator='=', ):
         '''
         Return a Recordset for the name
-        :param name: History type name to search for
-        :type name: str
-        :rtype: Recordset
+
+        Args:
+            name: `str` of History Type name to search for
+            operator: `str` domain operator to apply (`like`, `=like`, etc.)
+
+        Returns:
+            `Recordset` of History Type(s) matching name
         '''
         return self.search([
-            ('name', '=', name)
+            ('name', operator, name)
         ])

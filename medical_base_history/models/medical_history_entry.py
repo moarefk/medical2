@@ -22,7 +22,6 @@
 from openerp import fields, models, api, _
 from openerp.exceptions import ValidationError
 
-
 try:
     import cPickle as pickle
 except ImportError:
@@ -38,8 +37,8 @@ class MedicalHistoryEntry(models.Model):
     _description = 'Medical History Historying Entries'
 
     user_id = fields.Many2one(
-        string='User',
-        help='User that logged history record',
+        string='Responsible User',
+        help='User responsible for this history entry',
         comodel_name='res.users',
         required=True,
     )
@@ -60,7 +59,7 @@ class MedicalHistoryEntry(models.Model):
     display_name = fields.Char(
         related='entry_type_id.display_name',
     )
-    old_record_dict = fields.Binary(
+    old_record_dict = fields.Text(
         help='Copy of old record for history auditing',
         readonly=True,
         store=True,
@@ -68,7 +67,7 @@ class MedicalHistoryEntry(models.Model):
         compute='_compute_old_record_dict',
         inverse='_write_old_record_dict',
     )
-    new_record_dict = fields.Binary(
+    new_record_dict = fields.Text(
         help='Copy of new record for history auditing',
         readonly=True,
         store=True,
@@ -76,17 +75,9 @@ class MedicalHistoryEntry(models.Model):
         compute='_compute_old_record_dict',
         inverse='_write_old_record_dict',
     )
-    associated_model_id = fields.Many2one(
-        string='Associated To Type',
-        help='Type of data record that this history entry is associated with',
-        comodel_name='ir.model',
-        readonly=True,
-        required=True,
-    )
     associated_model_name = fields.Char(
         string='Associated Record Type',
-        related='associated_model_id.name',
-        store=True,
+        required=True,
         select=True,
     )
     associated_record_id_int = fields.Integer(
@@ -106,35 +97,41 @@ class MedicalHistoryEntry(models.Model):
     )
 
     @api.multi
+    @api.depends('old_record_dict')
     def _compute_old_record_dict(self, ):
         ''' Unpickle the old record for usage '''
         for rec_id in self:
-            rec_id.old_record_dict = pickle.loads(rec_id.old_record_dict)
+            if rec_id.old_record_dict:
+                self.old_record_dict = pickle.loads(rec_id.old_record_dict)
 
     @api.multi
     def _write_old_record_dict(self, ):
         ''' Pickle the old record for storage '''
         for rec_id in self:
-            rec_id.old_record_dict = pickle.dumps(rec_id.old_record_dict)
+            if rec_id.old_record_dict:
+                self.old_record_dict = pickle.dumps(rec_id.old_record_dict)
 
     @api.multi
+    @api.depends('new_record_dict')
     def _compute_new_record_dict(self, ):
         ''' Unpickle the new record for usage '''
         for rec_id in self:
-            rec_id.new_record_dict = pickle.loads(rec_id.new_record_dict)
+            if rec_id.new_record_dict:
+                self.new_record_dict = pickle.loads(rec_id.new_record_dict)
 
     @api.multi
     def _write_new_record_dict(self, ):
         ''' Pickle the new record for storage '''
         for rec_id in self:
-            rec_id.new_record_dict = pickle.dumps(rec_id.new_record_dict)
+            if rec_id.new_record_dict:
+                self.new_record_dict = pickle.dumps(rec_id.new_record_dict)
 
     @api.multi
     def _compute_associated_record_details(self, ):
         ''' Compute the record name and other details for abstract context '''
         for rec_id in self:
             associated_id = self.get_associated_record_id()
-            rec_id.associated_record_name = associated_id.name
+            self.associated_record_name = associated_id.get_name()
 
     @api.multi
     def write(self, vals, ):
@@ -163,34 +160,41 @@ class MedicalHistoryEntry(models.Model):
             AssertionError: When a Singleton Recordset is not supplied
 
         Returns:
-            `Recordset` - Singleton associated with input record -unknown Model
+            `Recordset` Singleton associated with input record -unknown Model
         '''
         self.ensure_one()
-        model_obj = self.env[self.associated_model_id.model]
+        model_obj = self.env[self.associated_model_name]
         return model_obj.browse(self.associated_record_id_int)
 
-    @api.multi
-    def get_changed_cols(self, record_obj, new_vals, ):
+    @api.model
+    def get_changed_cols(self, record_id, new_vals, ):
         '''
         Returns a dictionary of the old values that are about to be changed
 
+        Note that this method should be called *before* the record is updated;
+        except in the instances of create, which is called after to circumvent
+        known issue with col saving and no record existing.
+
         Args:
-            new_vals: Dict of new values to check against current record
+            record_id: `Recordset` that is being evaluated for changed cols
+            new_vals: `dict` of new values to check against current record
 
         Returns:
-            `dict` or `None` - Old values that are about to be changed
+            `dict` - Old values that are about to be changed
         '''
         changed = {}
         for key, val in new_vals.items():
-            current_val = self.get(key, None)
-            if current_val.get and current_val.get('id'):
+            current_val = getattr(record_id, key, None)
+            try:  # Handle Recordsets
                 current_val = current_val.id
+            except AttributeError:
+                pass
             if val != current_val:
                 changed[key] = current_val
-        return len(changed) and changed or None
+        return len(changed) and changed or {}
 
     @api.model
-    def _do_history_actions(self, record_id, new_vals, ):
+    def _do_history_actions(self, record_id, entry_type_id, new_vals, ):
         '''
         Perform history actions for record_id
 
@@ -199,29 +203,30 @@ class MedicalHistoryEntry(models.Model):
             auditing features
 
         Args:
-            new_vals: Dict of new values to check against current record
-            record_id: Recordset that the entry is being created for
+            record_id: `Recordset` that the entry is being created for
+            new_vals: `dict` of new values to check against current record
 
         Returns:
-            `dict` - Values for the new history record
+            `dict` of values for the new history record
         '''
-        entry_type_id = new_vals['entry_type_id']
-        changed_cols = record_id.get_changed_cols(new_vals)
+
+        vals = {}
 
         # Old col saving
-        if entry_type_id.cols_to_save == 'changed':
-            new_vals['old_record_dict'] = changed_cols
-        elif entry_type_id.cols_to_save == 'all':
-            new_vals['old_record_dict'] = record_id.read()
+        if entry_type_id.old_cols_to_save == 'changed':
+            changed_cols = self.get_changed_cols(record_id, new_vals)
+            vals['old_record_dict'] = changed_cols
+        elif entry_type_id.old_cols_to_save == 'all':
+            vals['old_record_dict'] = record_id.read()[0]
 
         # New col saving
         if entry_type_id.new_cols_to_save == 'changed':
-            new_vals['new_record_dict'] = new_vals
+            vals['new_record_dict'] = new_vals
         elif entry_type_id.new_cols_to_save == 'all':
-            new_vals['new_record_dict'] = record_id.read()
-            new_vals['new_record_dict'].update(new_vals)
+            vals['new_record_dict'] = record_id.read()[0]
+            vals['new_record_dict'].update(new_vals)
 
-        return new_vals
+        return vals
 
     @api.model
     @api.returns('self')
@@ -230,22 +235,25 @@ class MedicalHistoryEntry(models.Model):
         Create a new entry from the record and proposed new vals for it
 
         Args:
-            record_id: Recordset Singleton that the entry is being created for
-            entry_type_id: Recordset Singleton of `medical.history.type` to
+            record_id: `Recordset` Singleton that the entry is being created
+                for
+            entry_type_id: `Recordset` Singleton of `medical.history.type` to
                 create
-            new_vals: Dict of new values to check against current record
+            new_vals: `dict` of new values to check against current record
 
         Returns:
-            `Recordset` - Singleton of new history entry
+            `Recordset` Singleton of new history entry
         '''
         entry_vals = {
-            'user_id': self.env.user,
+            'user_id': self.env.user.id,
             'entry_type_id': entry_type_id.id,
-            'associated_model_id': record_id.model.id,
+            'associated_model_name': record_id._name,
             'associated_record_id_int': record_id.id,
         }
         entry_vals.update(
-            self._do_history_actions(record_id, new_vals)
+            self._do_history_actions(
+                record_id, entry_type_id, new_vals
+            )
         )
         return self.create(entry_vals)
 

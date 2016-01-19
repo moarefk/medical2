@@ -22,3 +22,4 @@
 from . import medical_history_abstract
 from . import medical_history_type
 from . import medical_history_entry
+from . import medical_history_example

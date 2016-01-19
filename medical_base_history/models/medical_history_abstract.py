@@ -30,7 +30,7 @@ class MedicalHistoryAbstract(models.AbstractModel):
     to avoid name collisions with models that will inherit from this class.
 
     Attributes:
-        _audit_on: List of methods to log. Supports create, write, and delete
+        _audit_on: `list` of methods to log. Supports create, write, and delete
             Override this in child classes in order to add/remove attrs
     '''
 
@@ -46,24 +46,6 @@ class MedicalHistoryAbstract(models.AbstractModel):
         domain=lambda self: [('associated_model_name', '=', self._name)],
         auto_join=True,
     )
-
-    @api.multi
-    @api.returns('medical.history.entry')
-    def history_entry_new(self, code, vals, ):
-        '''
-        Create a new history entry given values
-
-        Args:
-            code: Str representing Entry type code
-
-        Returns:
-            Recordset - of the new entries created
-        '''
-        entry_ids = self.env['medical.history.entry']
-        entry_type_id = self.env['medical.history.type'].get_by_code(code)
-        for res_id in self:
-            entry_ids += entry_ids.new_entry(self, entry_type_id, vals)
-        return entry_ids
 
     @api.model
     def create(self, vals, ):
@@ -96,3 +78,21 @@ class MedicalHistoryAbstract(models.AbstractModel):
         except NameError:
             pass
         return res
+
+    @api.multi
+    @api.returns('medical.history.entry')
+    def history_entry_new(self, code, vals, ):
+        '''
+        Create a new history entry given values
+
+        Args:
+            code: `str` representing Entry type code
+
+        Returns:
+            `Recordset` of the new entries created
+        '''
+        entry_ids = self.env['medical.history.entry']
+        entry_type_id = self.env['medical.history.type'].get_by_code(code)
+        for rec_id in self:
+            entry_ids += entry_ids.new_entry(rec_id, entry_type_id, vals)
+        return entry_ids
