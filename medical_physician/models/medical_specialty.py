@@ -25,8 +25,11 @@ from openerp import models, fields
 class MedicalSpecialty(models.Model):
     _name = 'medical.specialty'
     _description = 'Medical Specialties'
-    code = fields.Char(size=256, string='Code')
-    name = fields.Char(size=256, string='Specialty', required=True, translate=True)
+    code = fields.Char(size=256, string='Code', help='Speciality Code')
+    name = fields.Char(
+        size=256, string='Specialty', required=True,
+        translate=True, help='Name of the specialty'
+        )
 
     _sql_constraints = [
         ('name_uniq', 'UNIQUE(name)', 'Name must be unique!'),

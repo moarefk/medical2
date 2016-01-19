@@ -32,14 +32,29 @@ class MedicalPhysicianScheduleTemplate(models.Model):
     The objective is to show the available spaces for every physician
     '''
     _name = 'medical.physician.schedule.template'
-    _description = 'Medical Physicians Schedule Template'
+    _description = 'Medical Physicians Schedule Templates'
     physician_id = fields.Many2one(
         'medical.physician', 'Physician', required=True, select=True,
         ondelete='cascade', help='Physician for the schedule template'
     )
-    day = fields.Selection(days, string='Day', sort=False, help='Day of schedule')
-    start_hour = fields.Selection(hours, string='Hour', help='Starting hour available')
-    start_minute = fields.Selection(minutes, string='Minute', help='Starting minute available')
-    end_hour = fields.Selection(hours, string='Hour', help='Ending hour available')
-    end_minute = fields.Selection(minutes, string='Minute', help='Ending minute available')
-    duration = fields.Selection(minutes, string='Duration', help='Duration available')
+    day = fields.Selection(
+        days, string='Day', sort=False, help='Day of schedule')
+    start_hour = fields.Selection(
+        hours, string='Hour',
+        help='Starting hour available'
+        )
+    start_minute = fields.Selection(
+        minutes, string='Minute',
+        help='Starting minute available'
+        )
+    end_hour = fields.Selection(
+        hours, string='Hour',
+        help='Ending hour available'
+        )
+    end_minute = fields.Selection(
+        minutes, string='Minute',
+        help='Ending minute available')
+    duration = fields.Selection(
+        minutes, string='Duration',
+        help='Duration available'
+        )

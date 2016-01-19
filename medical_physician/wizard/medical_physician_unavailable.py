@@ -44,10 +44,10 @@ class medical_physician_unavailable_wizard(models.TransientModel):
         domain=[('is_institution', '=', True)]
         )
 
-    def action_cancel(self):
+    def action_cancel(self, cr, uid, ids, context=None):
         return {'type': 'ir.actions.act_window_close'}
 
-    def action_set_unavailable(self):
+    def action_set_unavailable(self, cr, uid, ids, context=None):
         if not ids:
             return {}
 

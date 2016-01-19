@@ -128,7 +128,7 @@ class MedicalAppointment(orm.Model):
                                           help='Medical Center',
                                           domain="[('is_institution', '=',"
                                                  "True)]"),
-        'consultations': fields.many2one('medical.physician.services',
+        'consultations': fields.many2one('medical_.physician.service',
                                          string='Consultation Services',
                                          help='Consultation Services',
                                          domain="[('physician_id', '=',"

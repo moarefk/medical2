@@ -20,7 +20,7 @@
 ##############################################################################
 
 from openerp import fields, models
-from openerp.addons.medical.medical_constants import days, hours, minutes
+from openerp.addons.medical.medical_constants import minutes
 
 
 class MedicalPhysicianService(models.Model):
@@ -45,6 +45,7 @@ class MedicalPhysicianService(models.Model):
         'medical.physician', 'Physician', required=True, select=True,
         ondelete='cascade', help='The physician for the appointment'
     )
-    service_duration = fields.Selection(minutes, string='Duration',
+    service_duration = fields.Selection(
+        minutes, string='Duration',
         help='Duration of the appointment in minutes'
     )

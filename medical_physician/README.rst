@@ -38,7 +38,7 @@ Credits
 Contributors
 ------------
 
-* Dave Lasley <dave@laslabs.com>
+* Ken Mak <kmak@laslabs.com>
 
 Maintainer
 ----------
