@@ -114,10 +114,10 @@ class MedicalAppointment(orm.Model):
         'appointment_date': fields.datetime(string='Date and Time'),
         'date_end': fields.datetime(string='do not display'),
         'duration': fields.float('Duration'),
-       # 'physician_id': fields.many2one('medical.physician',
-       #                                 string='Physician', select=True,
-       #                                 required=True,
-       #                                 help='Physician\'s Name'),
+        # 'physician_id': fields.many2one('medical.physician',
+        #                                 string='Physician', select=True,
+        #                                 required=True,
+        #                                 help='Physician\'s Name'),
         'alias': fields.char(size=256, string='Alias', ),
         'comments': fields.text(string='Comments'),
         'appointment_type': fields.selection(
@@ -128,24 +128,23 @@ class MedicalAppointment(orm.Model):
                                           help='Medical Center',
                                           domain="[('is_institution', '=',"
                                                  "True)]"),
-       # 'consultations': fields.many2one('medical.physician.service',
-       #                                  string='Consultation Services',
-       #                                  help='Consultation Services',
-       #                                  domain="[('physician_id', '=',"
-       #                                         "physician_id), ]"),
+        # 'consultations': fields.many2one('medical.physician.service',
+        #                                  string='Consultation Services',
+        #                                  help='Consultation Services',
+        #                                  domain="[('physician_id', '=',"
+        #                                         "physician_id), ]"),
         'urgency': fields.selection(
             [('a', 'Normal'), ('b', 'Urgent'), ('c', 'Medical Emergency'), ],
             string='Urgency Level'),
-       # 'specialty_id': fields.many2one(
-       #     'medical.specialty', string='Specialty',
-       #     help='Medical Specialty / Sector'
-        ),
+        # 'specialty_id': fields.many2one(
+        #     'medical.specialty', string='Specialty',
+        #     help='Medical Specialty / Sector'
+        # ),
         'stage_id': fields.many2one('medical.appointment.stage', 'Stage',
                                     track_visibility='onchange'),
         'history_ids': fields.one2many('medical.appointment.history',
                                        'appointment_id_history',
                                        'History lines'),
-
     }
 
     _defaults = {
