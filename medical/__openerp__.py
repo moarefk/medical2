@@ -50,17 +50,13 @@
         'views/product_product_view.xml',
         'views/res_partner_view.xml',
         'views/medical_patient_view.xml',
-        'views/medical_appointment_view.xml',
-        'data/medical_appointment_data.xml',
         'security/medical_security.xml',
         'security/ir.model.access.csv',
         'views/medical_menu.xml',
     ],
     'test': [
-        'tests/physician.yml',
         'tests/patient.yml',
         'tests/partners.yml',
-        'tests/physician_speciality.yml'
     ],
     'installable': True,
     'application': True,
