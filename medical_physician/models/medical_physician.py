@@ -34,7 +34,8 @@ class MedicalPhysician(models.Model):
     code = fields.Char(size=256, string='ID')
     specialty_id = fields.Many2one(
         'medical.specialty', string='Specialty',
-        default=lambda self: self.env['medical.specialty'].search([('name', '=', 'General Practitioner')]).id,
+        default=lambda self: self.env['medical.specialty'].search(
+            [('name', '=', 'General Practitioner')]).id,
         required=True, help='Specialty Code'
     )
     info = fields.Text(string='Extra info')
