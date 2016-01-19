@@ -41,7 +41,6 @@
     'depends': [
         'base',
         'product',
-        'medical_physician',
     ],
     'author': "Odoo Medical Team, LasLabs, Odoo Community Association (OCA)",
     "website": "http://github.com/oca/vertical-medical",
