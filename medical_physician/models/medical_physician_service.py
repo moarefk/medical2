@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: Dave Lasley <dave@laslabs.com>
+#    Author: Ken Mak <kmak@laslabs.com>
 #    Copyright: 2014-2016 LasLabs, Inc. [https://laslabs.com]
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,12 +22,8 @@
 from openerp import fields, models
 from openerp.addons.medical.medical_constants import days, hours, minutes
 
-import logging
 
-_logger = logging.getLogger(__name__)
-
-
-class MedicalPhysicianServices(models.Model):
+class MedicalPhysicianService(models.Model):
     '''
     Services provided by the Physician on a specific medical center.
 
@@ -37,15 +33,18 @@ class MedicalPhysicianServices(models.Model):
     That's the reason to link this to res.partner instead of
     medical_physician.
     '''
-    _name = 'medical.physician.services'
+    _name = 'medical.physician.service'
     _inherits = {'product.product': 'product_id', }
+    _description = 'Medical Physicians Services'
     product_id = fields.Many2one(
         'product.product', 'Related Product', required=True,
         ondelete='restrict',
         help='Product related information for Appointment Type'
     )
     physician_id = fields.Many2one(
-        'medical.physician', 'Physician', required=True, select=1,
-        ondelete='cascade'
+        'medical.physician', 'Physician', required=True, select=True,
+        ondelete='cascade', help='The physician for the appointment'
     )
-    service_duration = fields.Selection(minutes, string='Duration')
+    service_duration = fields.Selection(minutes, string='Duration',
+        help='Duration of the appointment in minutes'
+    )

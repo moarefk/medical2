@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: Dave Lasley <dave@laslabs.com>
+#    Author: Ken Mak <kmak@laslabs.com>
 #    Copyright: 2014-2016 LasLabs, Inc. [https://laslabs.com]
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,27 +22,24 @@
 from openerp import fields, models
 from openerp.addons.medical.medical_constants import days, hours, minutes
 
-import logging
-
-_logger = logging.getLogger(__name__)
-
 
 class MedicalPhysicianScheduleTemplate(models.Model):
     '''
     Available schedule for the Physiscian.
 
-    ie: A physiscian will be able to say, in this schedule on this days.
+    ie: A physician will be able to say, in this schedule on this days.
 
-    The objective is to show the availbles spaces for every physiscian
+    The objective is to show the available spaces for every physician
     '''
     _name = 'medical.physician.schedule.template'
+    _description = 'Medical Physicians Schedule Template'
     physician_id = fields.Many2one(
-        'medical.physician', 'Physician', required=True, select=1,
-        ondelete='cascade'
+        'medical.physician', 'Physician', required=True, select=True,
+        ondelete='cascade', help='Physician for the schedule template'
     )
-    day = fields.Selection(days, string='Day', sort=False)
-    start_hour = fields.Selection(hours, string='Hour')
-    start_minute = fields.Selection(minutes, string='Minute')
-    end_hour = fields.Selection(hours, string='Hour')
-    end_minute = fields.Selection(minutes, string='Minute')
-    duration = fields.Selection(minutes, string='Duration')
+    day = fields.Selection(days, string='Day', sort=False, help='Day of schedule')
+    start_hour = fields.Selection(hours, string='Hour', help='Starting hour available')
+    start_minute = fields.Selection(minutes, string='Minute', help='Starting minute available')
+    end_hour = fields.Selection(hours, string='Hour', help='Ending hour available')
+    end_minute = fields.Selection(minutes, string='Minute', help='Ending minute available')
+    duration = fields.Selection(minutes, string='Duration', help='Duration available')

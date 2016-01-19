@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: Dave Lasley <dave@laslabs.com>
+#    Author: Ken Mak <kmak@laslabs.com>
 #    Copyright: 2014-2016 LasLabs, Inc. [https://laslabs.com]
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,16 +19,15 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, orm
+from openerp import models, fields
 
 
-class MedicalSpecialty(orm.Model):
+class MedicalSpecialty(models.Model):
     _name = 'medical.specialty'
-    _columns = {
-        'code': fields.char(size=256, string='Code'),
-        'name': fields.char(size=256, string='Specialty', required=True,
-                            translate=True),
-    }
+    _description = 'Medical Specialties'
+    code = fields.Char(size=256, string='Code')
+    name = fields.Char(size=256, string='Specialty', required=True, translate=True)
+
     _sql_constraints = [
         ('name_uniq', 'UNIQUE(name)', 'Name must be unique!'),
     ]

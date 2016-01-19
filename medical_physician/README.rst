@@ -1,8 +1,8 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
-Odoo Medical Physician
-========================
+Medical Physician
+=================
 
 Extension of medical that adds a physician namespace on partners
 

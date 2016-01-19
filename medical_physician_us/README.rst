@@ -1,8 +1,8 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
-Odoo Medical Physician
-========================
+Odoo Medical Physician - US Locale
+==================================
 
 Extension of medical_physician that provides US Locale
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: Dave Lasley <dave@laslabs.com>
+#    Author: Ken Mak <kmak@laslabs.com>
 #    Copyright: 2014-2016 LasLabs, Inc. [https://laslabs.com]
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,14 +21,11 @@
 
 from openerp import fields, models, api
 
-import logging
-
-_logger = logging.getLogger(__name__)
-
 
 class MedicalPhysician(models.Model):
     _name = 'medical.physician'
     _inherits = {'res.partner': 'partner_id', }
+    _description = 'Medical Physicians'
     id = fields.Integer('ID', readonly=True)
     partner_id = fields.Many2one(
         'res.partner', 'Related Partner', required=True, ondelete='cascade',
@@ -48,7 +45,7 @@ class MedicalPhysician(models.Model):
     )
     schedule_template_ids = fields.One2many(
         'medical.physician.schedule.template', 'physician_id',
-        'Related schedules'
+        'Related schedules', help='Schedule template of the physician'
     )
 
     _defaults = {'is_doctor': True, 'supplier': True, 'active': True}

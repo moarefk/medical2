@@ -49,7 +49,6 @@
         'views/medical_sequence.xml',
         'views/product_product_view.xml',
         'views/res_partner_view.xml',
-        'wizard/medical_physician_unavailable_view.xml',
         'views/medical_patient_view.xml',
         'views/medical_appointment_view.xml',
         'data/medical_appointment_data.xml',

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: Dave Lasley <dave@laslabs.com>
+#    Author: Ken Mak <kmak@laslabs.com>
 #    Copyright: 2014-2016 LasLabs, Inc. [https://laslabs.com]
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -26,14 +26,16 @@
     'category': 'Medical',
     'depends': [
         'medical',
+        'product',
     ],
     "website": "https://laslabs.com",
     "licence": "AGPL-3",
     "data": [
         'views/medical_physician_view.xml',
         'views/medical_specialty_view.xml',
-        'security/ir.model.access.csv',
         'views/medical_menu.xml',
+        'security/ir.model.access.csv',
+        'wizard/medical_physician_unavailable_view.xml',
     ],
     "application": False,
     'installable': True,
