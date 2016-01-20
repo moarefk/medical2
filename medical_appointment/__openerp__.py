@@ -1,19 +1,12 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    Medical, HMS Opensource Solution
+#    Copyright (C) LasLabs, Inc [https://laslabs.com]. All Rights Reserved
 #
 ##############################################################################
 #
 #    Collaborators of this module:
-#    8.0 Port by: Dave Lasley <dave@laslabs.com>
-#    Special Credit and Thanks to Thymbra Latinoamericana S.A.
-#    Coded by: Parthiv Patel <parthiv@techreceptives.com>
-#    Coded by: Ruchir Shukla <ruchir@techreceptives.com>
-#    Planifyied by: Parthiv Patel <parthiv@techreceptives.com>
-#    Planifyied by: Nhomar Hernandéz <nhomar@vauxoo.com>
+#       Written By: Dave Lasley <dave@laslabs.com>
 #
 ##############################################################################
 #
@@ -41,20 +34,25 @@
 ##############################################################################
 {
 
-    'name': 'Medical Family',
+    'name': 'Medical Appointment',
+    'summary': 'Add Appointment concept to medical_physician',
     'version': '9.0.1.1.0',
-    'author': "LasLabs, Odoo Medical Team, Odoo Community Association (OCA)",
+    'author': 'LasLabs, Odoo Medical Team, Odoo Community Association (OCA)',
     'category': 'Medical',
     'depends': [
-        'medical',
+        'medical_base_history',
+        'medical_physician',
     ],
-    "website": "https://laslabs.com",
-    "licence": "AGPL-3",
-    "data": [
-        'views/medical_patient_view.xml',
-        'views/medical_family_view.xml',
+    'data': [
+        'views/medical_appointment_view.xml',
+        'views/medical_menu.xml',
         'security/ir.model.access.csv',
+        'security/medical_security.xml',
+        'data/medical_appointment_data.xml',
+        'data/medical_appointment_sequence.xml',
     ],
+    'website': 'https://laslabs.com',
+    'licence': 'AGPL-3',
     'installable': False,
     'auto_install': False,
 }
