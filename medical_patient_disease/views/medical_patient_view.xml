@@ -8,10 +8,11 @@
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='buttons']" position="inside">
                     <button
-                        name="%(medical_medication.medical_patient_medication_action)d"
+                        name="%(medical_patient_disease.medical_patient_disease_action)d"
                         type="action" class="oe_stat_button" icon="fa-list"
                         context="{'search_default_patient_id': active_id}">
-                        <div>Medications</div>
+                        <field name="count_disease_ids"
+                           widget="statinfo" string="Diseases"/>
                     </button>
                 </xpath>
             </field>

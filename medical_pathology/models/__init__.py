@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: James Foster <jfoster@laslabs.com>
-#    Copyright: 2016 LasLabs, Inc.
+#    Author: Dave Lasley <dave@laslabs.com>
+#    Copyright: 2015 LasLabs, Inc.
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,9 +19,6 @@
 #
 ##############################################################################
 
-from openerp import models
-
-
-class MedicalPrescriptionOrderLine(models.Model):
-    _name = 'medical.prescription.order.line'
-    _inherit = ['medical.prescription.order.line', 'mail.thread']
+from . import medical_pathology
+from . import medical_pathology_group
+from . import medical_pathology_category

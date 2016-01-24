@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: James Foster <jfoster@laslabs.com>
-#    Copyright: 2016 LasLabs, Inc.
+#    Author: Dave Lasley <dave@laslabs.com>
+#    Copyright: 2015 LasLabs, Inc.
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,9 +19,26 @@
 #
 ##############################################################################
 
-from openerp import models
+from openerp.tests.common import TransactionCase
+from psycopg2 import IntegrityError
 
 
-class MedicalPrescriptionOrderLine(models.Model):
-    _name = 'medical.prescription.order.line'
-    _inherit = ['medical.prescription.order.line', 'mail.thread']
+class TestMedicalPathologyGroup(TransactionCase):
+
+    def setUp(self,):
+        super(TestMedicalPathologyGroup, self).setUp()
+        self.model_obj = self.env['medical.pathology.group']
+        self.vals = {
+            'name': 'Test Group',
+            'code': 'TESTGRP',
+            'description': 'This is a test pathology group',
+            'notes': 'Used in unit testing so we know our code doesn\tt suck',
+        }
+        self.record_id = self._test_record()
+
+    def _test_record(self, ):
+        return self.model_obj.create(self.vals)
+
+    def test_check_unique_code(self, ):
+        with self.assertRaises(IntegrityError):
+            self._test_record()
