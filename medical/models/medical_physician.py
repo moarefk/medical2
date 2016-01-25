@@ -98,10 +98,3 @@ class MedicalPhysician(models.Model):
     )
 
     _defaults = {'is_doctor': True, 'supplier': True, 'active': True, }
-
-    @api.model
-    def create(self, vals,):
-        groups_proxy = self.env['res.groups']
-        group_ids = groups_proxy.search([('name', '=', 'Medical Doctor')])
-        vals['groups_id'] = [(6, 0, group_ids)]
-        return super(MedicalPhysician, self).create(vals)
