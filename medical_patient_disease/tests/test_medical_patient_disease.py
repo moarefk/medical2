@@ -26,7 +26,7 @@
 from openerp.tests.common import TransactionCase
 
 
-class TestMedicalDisease(TransactionCase):
+class TestMedicalPatientDisease(TransactionCase):
 
     def setUp(self):
         super(TestMedicalDisease, self).setUp()
@@ -49,20 +49,34 @@ class TestMedicalDisease(TransactionCase):
     def test_name(self):
         short_comment = 'test'
         self.disease_id.short_comment = short_comment
-        computed_name =\
-            '%s - %s' % (
-                self.disease_id.pathology_id.name,
-                short_comment,
-            )
+        computed_name = '%s - %s' % (
+            self.disease_id.pathology_id.name,
+            short_comment,
+        )
         self.assertEquals(
-            self.disease_id.name, computed_name, 'Should be the same name')
+            self.disease_id.name,
+            computed_name,
+            'Disease name and computed name should be same.'
+            ' Expect %s Got %s' % (
+                self.disease_id.name,
+                computed_name
+            )
+        )
 
     def test_invalidate(self):
-        self.assertTrue(self.disease_id.active, 'Should be active')
+        self.assertTrue(
+            self.disease_id.active,
+            'Disease should be active before invalidation'
+        )
         self.disease_id.patient_id.action_invalidate()
-        self.assertFalse(self.disease_id.active, 'Should be inactive')
         self.assertFalse(
-            self.disease_id.patient_id.active, 'Should be inactive')
+            self.disease_id.active,
+            'Disease should be inactive after invalidation'
+        )
+        self.assertFalse(
+            self.disease_id.patient_id.active,
+            'Patient should be inactive after invalidation'
+        )
 
     def test_compute_disease(self):
         self.assertEquals(

@@ -29,18 +29,18 @@ class MedicalPatient(models.Model):
     disease_ids = fields.One2many(
         comodel_name='medical.patient.disease',
         inverse_name='patient_id',
-        string='Diseases'
+        string='Diseases',
     )
     count_disease_ids = fields.Integer(
         compute='compute_count_disease_ids',
-        string='NB. Disease'
+        string='Diseases',
     )
+
+    @api.multi
+    def compute_count_disease_ids(self):
+        self.count_disease_ids = len(self.disease_ids)
 
     @api.multi
     def action_invalidate(self):
         super(MedicalPatient, self).action_invalidate()
         self.disease_ids.action_invalidate()
-
-    @api.multi
-    def compute_count_disease_ids(self):
-        self.count_disease_ids = len(self.disease_ids)
