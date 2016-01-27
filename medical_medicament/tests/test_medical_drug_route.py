@@ -28,7 +28,7 @@ class TestMedicalDrugRoute(TransactionCase):
     def setUp(self, ):
         super(TestMedicalDrugForm, self).setUp()
         self.model_obj = self.env['medical.drug.route']
-        vals = {
+        self.vals = {
             'name': 'DrugRoute',
             'code': 'DR',
         }

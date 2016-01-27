@@ -33,7 +33,7 @@ class TestMedicalMedicament(TransactionCase):
         super(TestMedicalMedicament, self).setUp()
         self.medical_medicament_obj = self.env['medical.medicament']
         self.name = 'ProductMedicament'
-        vals = {
+        self.vals = {
             'name': self.name,
             'drug_form_id': self.env.ref('medical_medicament.AEM').id,
         }
