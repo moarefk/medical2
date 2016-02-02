@@ -15,7 +15,7 @@
             <field name="model">rx.sale.wizard</field>
             <field name="arch" type="xml">
                 
-                <form string="Rx2Sales">
+                <form string="Rx => Sale(s)">
 
                     <header>
                         <h1 class="pull-left">
@@ -27,8 +27,6 @@
                     <sheet>
                         <group name="data">
                             <field name="pharmacy_id"
-                                   domain="[('is_pharmacy', '=', True)]"
-                                   context="{'default_is_pharmacy': True}"
                                    states="new,start" />
                             <field name="warehouse_id"
                                    states="new,start" />

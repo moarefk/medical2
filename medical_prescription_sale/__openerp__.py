@@ -55,7 +55,8 @@
         # Wizards
         'wizards/medical_prescription_to_sale_wizard_view.xml',
         'wizards/medical_sale_wizard_view.xml',
+        'wizards/medical_prescription_to_lead_wizard_view.xml',
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

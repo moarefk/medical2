@@ -22,3 +22,4 @@
 from . import medical_prescription_to_sale_wizard
 from . import medical_sale_wizard
 from . import medical_sale_line_wizard
+from . import medical_prescription_to_lead_wizard
