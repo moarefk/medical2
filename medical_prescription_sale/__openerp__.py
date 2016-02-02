@@ -39,8 +39,8 @@
     'author': "LasLabs, Odoo Medical Team, Odoo Community Association (OCA)",
     'category': 'Medical',
     'depends': [
-        'sale',
-        'crm',
+        'sale_stock',
+        'sale_crm',
         'medical_prescription',
         'medical_pharmacy',
     ],
