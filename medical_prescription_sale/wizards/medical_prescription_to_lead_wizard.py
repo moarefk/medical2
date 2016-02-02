@@ -63,8 +63,6 @@ class MedicalRxLeadWizard(models.TransientModel):
     def create_leads(self, ):
 
         order_map = defaultdict(list)
-        lead_inserts = []
-
         for rx_line in self:
             if self.split_orders == 'partner':
                 raise NotImplementedError(_(
