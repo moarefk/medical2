@@ -59,7 +59,7 @@ class MedicalSaleWizard(models.TransientModel):
         required=True,
     )
     prescription_wizard_id = fields.Many2one(
-        comodel_name='medical.rx.sale.wizard',
+        comodel_name='rx.sale.wizard',
         inverse_name='sale_wizard_ids',
         default=_compute_default_session,
         readonly=True,
@@ -131,9 +131,9 @@ class MedicalSaleWizard(models.TransientModel):
         required=True,
         readonly=True,
     )
-    section_id = fields.Many2one(
+    team_id = fields.Many2one(
         string='Sales Team',
-        comodel_name='crm.case.section',
+        comodel_name='crm.team',
     )
     amount_untaxed = fields.Float(
         compute='_compute_all_amounts',
@@ -203,7 +203,7 @@ class MedicalSaleWizard(models.TransientModel):
             'currency_id': self.currency_id.id,
             'origin': self.origin,
             'note': self.note,
-            'section_id': self.section_id.id,
+            'team_id': self.team_id.id,
             'payment_term': self.payment_term.id,
             'fiscal_position': self.fiscal_position.id,
             'project_id': self.project_id.id,
