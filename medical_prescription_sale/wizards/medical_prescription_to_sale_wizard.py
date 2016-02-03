@@ -101,9 +101,10 @@ class MedicalRxSaleWizard(models.TransientModel):
             else:
                 order_map[None].append(rx_line)
 
-        for order in order_map.values():
+        for patient_id, order in order_map.items():
 
             order_lines = []
+            prescription_order_ids = self.env['medical.prescription.order']
             for l in self.prescription_line_ids:
                 medicament_id = l.medical_medication_id.medicament_id
                 order_lines.append((0, 0, {
@@ -114,23 +115,29 @@ class MedicalRxSaleWizard(models.TransientModel):
                     'prescription_order_line_id': l.id,
                     'patient_id': l.patient_id.id,
                 }))
+                prescription_order_ids += l.prescription_order_id
 
-            if order.patient_id.property_product_pricelist:
-                pricelist_id = order.patient_id.property_product_pricelist.id
+            if patient_id.property_product_pricelist:
+                pricelist_id = patient_id.property_product_pricelist.id
             else:
                 pricelist_id = False
 
+            pids = [(4, p.id, 0) for p in prescription_order_ids]
+            client_order_ref = ', '.join(
+                p.name for p in prescription_order_ids
+            )
             order_inserts.append((0, 0, {
-                'partner_id': order.patient_id.partner_id.id,
+                'partner_id': patient_id.partner_id.id,
+                'patient_id': patient_id.id,
                 'pricelist_id': pricelist_id,
-                'partner_invoice_id': order.patient_id.id,
-                'partner_shipping_id': order.patient_id.id,
-                'prescription_order_id': order.prescription_order_id.id,
+                'partner_invoice_id': patient_id.id,
+                'partner_shipping_id': patient_id.id,
+                'prescription_order_ids': pids,
                 'pharmacy_id': self.pharmacy_id.id,
-                'client_order_ref': order.prescription_order_id.name,
+                'client_order_ref': client_order_ref,
                 'order_line': order_lines,
                 'date_order': self.date_order,
-                'origin': order.prescription_order_id.name,
+                'origin': client_order_ref,
                 'warehouse_id': self.warehouse_id.id,
                 'user_id': self.env.user.id,
                 'company_id': self.env.user.company_id.id,
@@ -149,10 +156,10 @@ class MedicalRxSaleWizard(models.TransientModel):
     def _get_next_sale_wizard(self, only_states=None, ):
         model_obj = self.env['ir.model.data']
         wizard_id = model_obj.xmlid_to_object(
-            'medical_pharmacy.medical_sale_wizard_view_form'
+            'medical_prescription_sale.medical_sale_wizard_view_form'
         )
         action_id = model_obj.xmlid_to_object(
-            'medical_pharmacy.medical_sale_wizard_action'
+            'medical_prescription_sale.medical_sale_wizard_action'
         )
         context = self._context.copy()
         for wizard in self.sale_wizard_ids:

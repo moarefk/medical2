@@ -31,27 +31,6 @@ class MedicalSaleWizard(models.TransientModel):
     _name = 'medical.sale.wizard'
     _description = 'Temporary order info for Sale2Rx workflow'
 
-    def _compute_default_session(self, ):
-        return self.env['medical.sale.wizard'].browse(
-            self._context.get('active_id')
-        )
-
-    @api.one
-    def _compute_line_cnt(self, ):
-        self.line_cnt = len(self.order_line)
-
-    @api.one
-    def _compute_all_amounts(self, ):
-        # curr = self.pricelist_id.currency_id
-        untaxed = 0.0
-        # taxes = 0.0
-        for line in self.order_line:
-            untaxed += line.price_subtotal
-            # taxes += line.amount_tax
-        self.write({
-            'amount_untaxed': untaxed,
-        })
-
     order_line = fields.One2many(
         string='Order Lines',
         comodel_name='medical.sale.line.wizard',
@@ -61,7 +40,7 @@ class MedicalSaleWizard(models.TransientModel):
     prescription_wizard_id = fields.Many2one(
         comodel_name='rx.sale.wizard',
         inverse_name='sale_wizard_ids',
-        default=_compute_default_session,
+        default=lambda s: s._compute_default_session(),
         readonly=True,
     )
     patient_id = fields.Many2one(
@@ -70,7 +49,7 @@ class MedicalSaleWizard(models.TransientModel):
         comodel_name='medical.patient',
         required=True,
     )
-    prescription_order_id = fields.Many2one(
+    prescription_order_ids = fields.Many2many(
         string='Prescription',
         comodel_name='medical.prescription.order',
         required=True,
@@ -160,6 +139,28 @@ class MedicalSaleWizard(models.TransientModel):
         default='new',
     )
 
+    @api.model
+    def _default_session(self, ):
+        return self.env['medical.sale.wizard'].browse(
+            self._context.get('active_id')
+        )
+
+    @api.multi
+    def _compute_line_cnt(self, ):
+        for rec_id in self:
+            rec_id.line_cnt = len(rec_id.order_line)
+
+    @api.multi
+    def _compute_all_amounts(self, ):
+        for rec_id in self:
+            # curr = self.pricelist_id.currency_id
+            untaxed = 0.0
+            # taxes = 0.0
+            for line in rec_id.order_line:
+                untaxed += line.price_subtotal
+                # taxes += line.amount_tax
+            rec_id.amount_untaxed = untaxed
+
     @api.multi
     def next_wizard(self, ):
         self.ensure_one()
@@ -186,19 +187,20 @@ class MedicalSaleWizard(models.TransientModel):
     def _to_vals(self, ):
         ''' Return a values dictionary to create in real model '''
         self.ensure_one()
+        pids = [(4, p.id, 0) for p in self.prescription_order_ids]
         return {
             'user_id': self.user_id.id,
             'company_id': self.company_id.id,
             'partner_id': self.partner_id.id,
             'partner_invoice_id': self.partner_invoice_id.id,
             'partner_shipping_id': self.partner_shipping_id.id,
-            'prescription_order_id': self.prescription_order_id.id,
+            'prescription_order_ids': pids,
             'pricelist_id': self.pricelist_id.id,
             'pharmacy_id': self.pharmacy_id.id,
             'date_order': self.date_order,
             'client_order_ref': self.client_order_ref,
             'warehouse_id': self.warehouse_id.id,
-            'state': 'progress',
+            'state': 'sale',
             'order_line': self.order_line._to_insert(),
             'currency_id': self.currency_id.id,
             'origin': self.origin,

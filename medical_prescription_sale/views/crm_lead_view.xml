@@ -17,9 +17,14 @@
                 <xpath expr="//notebook" position="inside">
                     <page string="Prescription">
                         <group>
-                            <field name="patient_ids" />
                             <field name="pharmacy_id" />
-                            <field name="prescription_order_line_ids" />
+                            <field name="patient_ids" />
+                            <field name="prescription_order_line_ids">
+                                <field name="prescription_order_id" />
+                                <field name="physician_id" />
+                                <field name="patient_id" />
+                                <field name="medicament_id" />
+                            </field>
                         </group>
                     </page>
                 </xpath>

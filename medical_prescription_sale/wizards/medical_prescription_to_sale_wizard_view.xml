@@ -19,7 +19,8 @@
 
                     <header>
                         <h1 class="pull-left">
-                            Prescription Line(s): <field name="prescription_line_ids" />
+                            Prescription Line(s):
+                            <field name="prescription_line_ids" widget="many2many_tags" />
                         </h1>
                         <field name="state" widget="statusbar" />
                     </header>
@@ -39,8 +40,8 @@
                                    context="{'default_prescription_wizard_id': True}">
                                 <tree string="Orders">
                                     <field name="patient_id" />
-                                    <field name="prescription_order_id" />
                                     <field name="line_cnt" />
+                                    <field name="prescription_order_ids" />
                                 </tree>
                             </field>
                         </group>

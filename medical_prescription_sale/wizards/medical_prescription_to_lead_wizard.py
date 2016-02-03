@@ -63,7 +63,7 @@ class MedicalRxLeadWizard(models.TransientModel):
     def create_leads(self, ):
 
         order_map = defaultdict(list)
-        for rx_line in self:
+        for rx_line in self.prescription_line_ids:
             if self.split_orders == 'partner':
                 raise NotImplementedError(_(
                     'Patient and Customers are currently identical concepts.'
@@ -75,8 +75,9 @@ class MedicalRxLeadWizard(models.TransientModel):
 
         lead_obj = self.env['crm.lead']
         lead_ids = lead_obj
-        for partner_id, order in order_map.items():
+        for patient_id, order in order_map.items():
 
+            partner_id = patient_id.partner_id
             order_lines = [(4, l.id, 0) for l in order]
             lead_ids += lead_obj.create({
                 'partner_id': partner_id.id,
@@ -85,6 +86,7 @@ class MedicalRxLeadWizard(models.TransientModel):
                 'pharmacy_id': self.pharmacy_id.id,
                 'prescription_order_line_ids': order_lines,
                 'is_prescription': True,
+                'name': ', '.join(l.name for l in order)
             })
 
         _logger.debug('Created %s', lead_ids)

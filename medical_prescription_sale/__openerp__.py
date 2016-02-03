@@ -50,7 +50,7 @@
         'views/prescription_order_line_view.xml',
         'views/sale_order_view.xml',
         'views/crm_lead_view.xml',
-
+        'data/ir_sequence.xml',
         'wizards/medical_prescription_to_sale_wizard_view.xml',
         'wizards/medical_sale_wizard_view.xml',
         'wizards/medical_prescription_to_lead_wizard_view.xml',
