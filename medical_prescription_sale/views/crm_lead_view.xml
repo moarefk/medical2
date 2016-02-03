@@ -14,8 +14,10 @@
             <field name="model">crm.lead</field>
             <field name='inherit_id' ref='crm.crm_case_form_view_oppor' />
             <field name="arch" type="xml">
-                <xpath expr="//notebook" position="inside">
-                    <page string="Prescription">
+                <xpath expr="//page" position="before">
+                    <page string="Medical"
+                          name='medical_data'
+                          attrs="{'invisible': [('is_prescription', '=', True)]">
                         <group>
                             <field name="pharmacy_id" />
                             <field name="patient_ids" />
