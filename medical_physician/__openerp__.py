@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Tech-Receptives Solutions Pvt. Ltd.
-#    Copyright (C) 2004-TODAY Tech-Receptives(<http://www.techreceptives.com>)
-#    Special Credit and Thanks to Thymbra Latinoamericana S.A.
+#    Author: Ken Mak <kmak@laslabs.com>
+#    Copyright: 2014-2016 LasLabs, Inc. [https://laslabs.com]
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,5 +19,24 @@
 #
 ##############################################################################
 
-from . import medical_constants
-from . import models
+{
+    'name': 'Medical Physician',
+    'version': '9.0.1.1.0',
+    'author': "LasLabs, Odoo Medical Team, Odoo Community Association (OCA)",
+    'category': 'Medical',
+    'depends': [
+        'medical',
+        'product',
+    ],
+    "website": "https://laslabs.com",
+    "licence": "AGPL-3",
+    "data": [
+        'views/medical_physician_view.xml',
+        'views/medical_specialty_view.xml',
+        'views/medical_menu.xml',
+        'security/ir.model.access.csv',
+        'wizard/medical_physician_unavailable_view.xml',
+    ],
+    "application": False,
+    'installable': True,
+}

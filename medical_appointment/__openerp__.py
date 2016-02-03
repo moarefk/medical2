@@ -36,7 +36,7 @@
 
     'name': 'Medical Appointment',
     'summary': 'Add Appointment concept to medical_physician',
-    'version': '9.0.2.0.0',
+    'version': '9.0.1.1.0',
     'author': 'LasLabs, Odoo Medical Team, Odoo Community Association (OCA)',
     'category': 'Medical',
     'depends': [
@@ -53,6 +53,6 @@
     ],
     'website': 'https://laslabs.com',
     'licence': 'AGPL-3',
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

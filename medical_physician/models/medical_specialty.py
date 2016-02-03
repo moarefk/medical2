@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-# #############################################################################
+##############################################################################
 #
-#    Tech-Receptives Solutions Pvt. Ltd.
-#    Copyright (C) 2004-TODAY Tech-Receptives(<http://www.techreceptives.com>)
-#    Special Credit and Thanks to Thymbra Latinoamericana S.A.
+#    Author: Ken Mak <kmak@laslabs.com>
+#    Copyright: 2014-2016 LasLabs, Inc. [https://laslabs.com]
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,17 +17,27 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# #############################################################################
-from openerp.osv import fields, orm
+##############################################################################
+
+from openerp import models, fields
 
 
-class MedicalSpecialty(orm.Model):
+class MedicalSpecialty(models.Model):
     _name = 'medical.specialty'
-    _columns = {
-        'code': fields.char(size=256, string='Code'),
-        'name': fields.char(size=256, string='Specialty', required=True,
-                            translate=True),
-    }
+    _description = 'Medical Specialties'
+    code = fields.Char(
+        string='Code',
+        help='Speciality Code',
+        size=256,
+    )
+    name = fields.Char(
+        string='Specialty',
+        help='Name of the specialty',
+        size=256,
+        required=True,
+        translate=True,
+    )
+
     _sql_constraints = [
         ('name_uniq', 'UNIQUE(name)', 'Name must be unique!'),
     ]

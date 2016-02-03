@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ###############################################################################
 #
 # OpenERP, Open Source Management Solution
@@ -24,28 +24,25 @@
 #
 ###############################################################################
 
-from openerp.osv import osv
-from openerp.osv import fields
+from openerp import fields, models
 
 
-class MedicalPhysicianUnavailableWizard(osv.TransientModel):
+class medical_physician_unavailable_wizard(models.TransientModel):
     _name = 'medical.physician.unavailable.wizard'
-    _description = 'Asistente para la definicion de indisponibilidades'
-
-    _columns = {
-        'physician_id': fields.many2one('medical.physician', 'Physician',
-                                        required=True),
-        'date_start': fields.datetime(string='Start', required=True),
-        'date_end': fields.datetime(string='End', required=True),
-        'institution_id': fields.many2one('res.partner', 'Medical Center',
-                                          select=1,
-                                          domain="[('is_institution', '=', "
-                                                 "True), ]"),
-    }
-    _defaults = {
-        'date_start': fields.date.today(),
-        'date_end': fields.date.today(),
-    }
+    _description = 'Medical physicians unavailable wizard'
+    physician_id = fields.Many2one(
+        'medical.physician', 'Physician', required=True
+        )
+    date_start = fields.Datetime(
+        string='Start', default=fields.date.today, required=True
+        )
+    date_end = fields.Datetime(
+        string='End', default=fields.date.today, required=True
+        )
+    institution_id = fields.Many2one(
+        'res.partner', 'Medical Center', select=True,
+        domain=[('is_institution', '=', True)]
+        )
 
     def action_cancel(self, cr, uid, ids, context=None):
         return {'type': 'ir.actions.act_window_close'}

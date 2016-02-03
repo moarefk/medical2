@@ -94,15 +94,16 @@ class MedicalAppointment(models.Model):
         required=True,
         default='outpatient',
     )
-    insitution_id = fields.Many2one(
+    institution_id = fields.Many2one(
         string='Medical Center',
         help='Medical center that appointment is located at',
+        comodel_name='res.partner',
         domain="[('is_institution', '=', True)]",
     )
     consultation_ids = fields.Many2one(
         string='Consultation Services',
         help='Services that appointment is being scheduled for',
-        comodel_name='medical.physician.services',
+        comodel_name='medical.physician.service',
         domain="[('physician_id', '=', physician_id)]",
     )
     urgency = fields.Selection([
@@ -142,7 +143,7 @@ class MedicalAppointment(models.Model):
         return stage_id
 
     @api.multi
-    def _group_stage_ids(self, domain, read_group_order=None,
+    def _group_stage_ids(self, read_group_order=None,
                          access_rights_uid=None, ):
 
         access_rights_uid = access_rights_uid or self.env.user
@@ -159,7 +160,7 @@ class MedicalAppointment(models.Model):
         stage_ids = stage_obj.sudo(access_rights_uid).search(
             search_domain, order=order
         )
-        result = stage_obj.sudo(access_rights_uid).name_get(stage_ids)
+        result = stage_ids.name_get()
 
         # restore order of the search
         stage_id_ints = [s.id for s in stage_ids]
@@ -176,9 +177,9 @@ class MedicalAppointment(models.Model):
     @api.constrains('physician_id', 'appointment_date', 'duration')
     def _check_not_double_booking(self, ):
         for rec_id in self:
-            date_start = fields.Datetime.from_string(rec_id.appointment_date)
+            date_start = fields.Datetime.to_string(rec_id.appointment_date)
             duration_delta = timedelta(minutes=rec_id.duration)
-            date_end = date_start + duration_delta
+            date_end = fields.Datetime.to_string(date_start + duration_delta)
             domain = [
                 ('appointment_date', '>=', date_start),
                 ('appointment_date', '<=', date_end),
@@ -203,8 +204,10 @@ class MedicalAppointment(models.Model):
     def _change_stage(self, vals, ):
         ''' @TODO: replace in SMD-118 '''
 
-        stage_proxy = self.env['medical.appointment.stage']
-        stage_name = stage_proxy.name_get(vals['stage_id'])[0][1]
+        stage_id = self.env['medical.appointment.stage'].browse(
+            vals['stage_id']
+        )
+        stage_name = stage_id.name_get()[0][1]
 
         for rec_id in self:
 
@@ -261,10 +264,10 @@ class MedicalAppointment(models.Model):
 
         model_obj = self.env['ir.model.data']
         _, pending_review_id = model_obj.get_object_reference(
-            'medical', 'stage_appointment_in_review'
+            'medical_appointment', 'stage_appointment_in_review'
         )
         _, cancelled_id = model_obj.get_object_reference(
-            'medical', 'stage_appointment_cancelled'
+            'medical_appointment', 'stage_appointment_cancelled'
         )
 
         domain = [
@@ -286,7 +289,7 @@ class MedicalAppointment(models.Model):
                                      date_start, date_end, ):
         model_obj = self.env['ir.model.data']
         _, review_stage_id = model_obj.get_object_reference(
-            'medical', 'stage_appointment_in_review',
+            'medical_appointment', 'stage_appointment_in_review',
         )
         if not review_stage_id:
             raise exceptions.ValidationError(
