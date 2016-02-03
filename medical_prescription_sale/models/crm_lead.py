@@ -63,5 +63,6 @@ class CrmLead(models.Model):
                 if line_id.patient_id not in patient_ids:
                     patient_ids += line_id.patient_id
             rec_id.prescription_order_ids = prescription_ids
-            rec_id.is_prescription = len(prescription_ids) > 0
+            is_rx = len(rec_id.prescription_order_line_ids) > 0
+            rec_id.is_prescription = is_rx
             rec_id.patient_ids = patient_ids

@@ -17,7 +17,7 @@
                 <xpath expr="//page" position="before">
                     <page string="Medical"
                           name='medical_data'
-                          attrs="{'invisible': [('is_prescription', '=', True)]">
+                          attrs="{'invisible': [('is_prescription', '=', False)]">
                         <group>
                             <field name="pharmacy_id" />
                             <field name="patient_ids" />
