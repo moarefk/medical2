@@ -2,14 +2,13 @@
 # © 2015 LasLabs Inc.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp.osv import fields, orm
-
 from openerp import models, fields
 
 
 class MedicalSpecialty(models.Model):
     _name = 'medical.specialty'
     _description = 'Medical Specialties'
+
     code = fields.Char(
         string='Code',
         help='Speciality Code',
