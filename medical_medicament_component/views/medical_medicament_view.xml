@@ -2,9 +2,9 @@
 <openerp>
     <data>
 
-         <record id="view_medical_pharmacy_form" model="ir.ui.view">
-			<field name="name">medical.pharmacy.form</field>
-			<field name="model">medical.pharmacy</field>
+         <record id="medical_medicament_view_form" model="ir.ui.view">
+			<field name="name">medical.medicament.form</field>
+			<field name="model">medical.medicament</field>
 			<field name="inherit_id" ref="medical_medicament.medical_medicament_view_form" />
 			<field name="arch" type="xml">
 				<xpath expr="//field[@name='composition']" position="replace">

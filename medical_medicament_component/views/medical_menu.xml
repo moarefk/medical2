@@ -11,7 +11,8 @@
 
         <menuitem id="medical_medicament_component"
                   name="Medicament Components"
-                  parent="medical_medicament_root" sequence="60"
+                  parent="medical_medicament.medical_medicament_root"
+                  sequence="55"
                   action="medical_medicament_component_action" />
     </data>
 </openerp>
