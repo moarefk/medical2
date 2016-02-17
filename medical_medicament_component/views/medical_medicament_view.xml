@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+         <record id="medical_medicament_view_form" model="ir.ui.view">
+			<field name="name">medical.medicament.form</field>
+			<field name="model">medical.medicament</field>
+			<field name="inherit_id" ref="medical_medicament.medical_medicament_view_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='composition']" position="replace">
+					<field name="component_ids" nolabel="1" />
+				</xpath>
+				<xpath expr="//field[@name='active_component']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+			</field>
+         </record>
+
+    </data>
+</openerp>
