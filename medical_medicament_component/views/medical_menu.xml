@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright (C) 2014-[Now] LasLabs [https://laslabs.com]
+    @author Dave Lasley <dave@laslabs.com>
+    The license is in the file __openerp__.py
+-->
+
+<openerp>
+    <data>
+
+        <menuitem id="medical_medicament_component"
+                  name="Medicament Components"
+                  parent="medical_medicament_root" sequence="60"
+                  action="medical_medicament_component_action" />
+    </data>
+</openerp>
