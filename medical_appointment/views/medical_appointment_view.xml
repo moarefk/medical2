@@ -112,7 +112,7 @@
                 <calendar string="Medical Appointments"
                           color="physician_id"
                           date_start="appointment_date"
-                          date_stop="date_end"
+                          date_delay="duration"
                           mode="week">
                     <field name="patient_id" />
                     <field name="physician_id" />
