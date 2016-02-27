@@ -94,8 +94,13 @@ class MedicalPatient(models.Model):
             rec_id.partner_id.active = False
 
     @api.multi
-    def onchange_state(self, state_id, partner_id):
-        return self.partner_id.onchange_state(state_id)
+    def onchange_state(self, state_id):
+        '''
+        Hack to allow for onchange_state on partner.
+        Uses current user's partner, as there should be no correlation
+        between the partner and the response from this method anyways
+        '''
+        return self.env.user.partner_id.onchange_state(state_id)
 
     @api.model
     @api.returns('self', lambda value: value.id)
