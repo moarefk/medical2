@@ -93,6 +93,10 @@ class MedicalPatient(models.Model):
             rec_id.active = False
             rec_id.partner_id.active = False
 
+    @api.multi
+    def onchange_state(self, state_id, partner_id):
+        return self.partner_id.onchange_state(state_id)
+
     @api.model
     @api.returns('self', lambda value: value.id)
     def create(self, vals):

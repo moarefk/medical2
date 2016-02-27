@@ -37,6 +37,7 @@
                                  <field name="ref" />
                                  <field name="identification_code" />
                                  <field name="medical_center_id" />
+                                 <field name="partner_id" invisible="True" />
                             </group>
                             <group>
                                  <field name="dob" />
@@ -68,6 +69,7 @@
                                                        class="no_button"
                                                        placeholder="State"
                                                        style="width: 37%"
+                                                       on_change="onchange_state(state_id, partner_id)"
                                                        options='{"no_open": True}' />
                                                 <field name="zip"
                                                        placeholder="ZIP"
@@ -227,6 +229,7 @@
                                             </div>
                                             <group col="2" colspan="2">
                                                 <field name="customer" invisible="True" />
+                                                <field name="id" invisible="True" />
                                                 <field name="use_parent_address" invisible="True"/>
                                                 <field class="inline" name="type" invisible="True"/>
                                                 <label for="street" string="Address" />
@@ -244,7 +247,7 @@
                                                            class="o_address_state"
                                                            placeholder="State"
                                                            options='{"no_open": True}'
-                                                           on_change="onchange_state(state_id)"
+                                                           on_change="onchange_state(state_id, id)"
                                                            context="{'country_id': country_id, 'zip': zip}" />
                                                     <field name="zip"
                                                            placeholder="ZIP"
