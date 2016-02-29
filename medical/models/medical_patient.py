@@ -3,7 +3,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models, fields, api, _
-from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 
@@ -63,11 +62,10 @@ class MedicalPatient(models.Model):
 
     @api.multi
     def _compute_age(self):
-        """
-        Age computed depending of the birth date of the
-        membership request
-        """
-        now = datetime.now()
+        """ Age computed depending on the birth date of the patient """
+        now = fields.Datetime.from_string(
+            self.env.context.get('date', fields.Datetime.now())
+        )
         for rec_id in self:
             if rec_id.dob:
                 dob = fields.Datetime.from_string(rec_id.dob)
