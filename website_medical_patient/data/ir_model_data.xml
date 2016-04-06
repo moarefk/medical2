@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Copyright (C) 2016-TODAY LasLabs [https://laslabs.com]
+    @license AGPL-3
+-->
+
+
+<openerp>
+    <data>
+        <record id="base.model_res_partner" model="ir.model">
+			<!--<field name="website_form_deafult_field_id" ref="medical.field_medical_patient_general_info" />-->
+            <field name="website_form_access">True</field>
+            <field name="website_form_label">Create a Patient</field>
+        </record>
+        <function model="ir.model.fields" name="formbuilder_whitelist">
+            <value>res.partner</value>
+            <value eval="[
+                'parent_id',
+                'id',
+                'name',
+                'email',
+                'phone',
+                'dob',
+				'gender',
+				'street',
+				'street2',
+				'city',
+				'zip',
+				'state_id',
+				'country_id',
+            ]"/>
+        </function>
+    </data>
+</openerp>

@@ -6,17 +6,17 @@ from openerp import http
 from openerp.http import request
 
 from openerp.addons.website_medical.controllers.main import (
-    WebsiteAccount
+    WebsiteMedical
 )
 from openerp.exceptions import ValidationError
 
 
-class WebsiteAccount(WebsiteAccount):
+class WebsiteMedical(WebsiteMedical):
 
-    @http.route(['/my/home'], type='http', auth="user", website=True)
-    def account(self, **kw):
-        """ Add patients to main account page """
-        response = super(WebsiteAccount, self).account()
+    @http.route(['/my/medical', '/medical'], type='http', auth="user", website=True)
+    def my_medical(self, **kw):
+        """ Add patients to medical account page """
+        response = super(WebsiteMedical, self).my_medical()
         partner_id = request.env.user.partner_id
 
         patient_obj = request.env['medical.patient']
@@ -32,7 +32,7 @@ class WebsiteAccount(WebsiteAccount):
         return response
 
     def _inject_detail_vals(self, patient_id):
-        vals = super(WebsiteAccount, self)._inject_detail_vals()
+        vals = super(WebsiteMedical, self)._inject_detail_vals()
         countries = request.env['res.country'].sudo().search([])
         states = request.env['res.country.state'].sudo().search([])
         patient_id = request.env['medical.patient'].browse(patient_id)

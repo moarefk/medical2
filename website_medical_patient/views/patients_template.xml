@@ -73,7 +73,7 @@
 
     <template id="patient_detail">
 		<h1>Patient Details</h1>
-		<form action="/medical_website_form/"
+		<form action="/medical/website_form/"
 			  method="post"
 			  enctype="multipart/form-data"
 			  data-model_name="medical.patient"
