@@ -4,7 +4,6 @@
 
 from openerp.tests.common import TransactionCase
 from openerp import fields
-from openerp.exceptions import ValidationError
 
 
 class TestMedicalPrescriptionOrder(TransactionCase):
@@ -12,7 +11,7 @@ class TestMedicalPrescriptionOrder(TransactionCase):
     module = 'medical_prescription_sale_stock'
 
     def setUp(self, *args, **kwargs):
-        super(TestAll, self).setUp(*args, **kwargs)
+        super(TestMedicalPrescriptionOrder, self).setUp(*args, **kwargs)
 
     # def _clear_resources(self, ):
         self.order_vals = {}

@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import fields, models, api
+from datetime import datetime
 
 
 class MedicalPrescriptionOrderLine(models.Model):
@@ -50,7 +51,7 @@ class MedicalPrescriptionOrderLine(models.Model):
     def _compute_qty_remain(self):
         for rec_id in self:
             total_qty = rec_id.qty * (rec_id.refill_qty_original + 1)
-            rec_id.total_qty_remain = total - rec_id.active_dispense_qty
+            rec_id.total_qty_remain = total_qty - rec_id.active_dispense_qty
             remain = (rec_id.total_qty_remain / rec_id.qty) - 1
             rec_id.refill_qty_remain = remain
             rec_id.total_allowed_qty = total_qty
@@ -84,7 +85,7 @@ class MedicalPrescriptionOrderLine(models.Model):
 
             date_dispense = fields.Datetime.from_string(proc_id.date_planned)
             date_delta = datetime.now() - date_dispense
-            daily_qty = qty / day_qty
+            daily_qty = rec_id.total_allowed_qty / day_qty
             days_dispensed = dispense_qty / daily_qty
             days_remain = days_dispensed - date_delta.days
 
@@ -117,5 +118,5 @@ class MedicalPrescriptionOrderLine(models.Model):
             allowed = rec_id.qty - pending
             if allowed > rec_id.total_qty_remain:
                 allowed = rec_id.total_qty_remain
-            rec_id.can_dispense = rec_id.qty > allowed
-            rec_id.can_dispense_qty = rec_id.qty - allowed
+            rec_id.can_dispense = bool(allowed)
+            rec_id.can_dispense_qty = allowed
