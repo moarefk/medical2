@@ -10,13 +10,24 @@ class MedicalPharmacy(models.Model):
     _name = 'medical.pharmacy'
 
     nabp_num = fields.Char(
-        help='National Boards of Pharmacy Id #',
+        help='National Boards of Pharmacy ID #',
     )
     medicaid_num = fields.Char(
         help='Medicaid Id #',
     )
     npi_num = fields.Char(
         help="National Provider Identifier",
+    )
+    ncpdp_num = fields.Char(
+        help='National Council for Prescription Drug Programs ID #',
+    )
+    dea_num = fields.Char(
+        help='Drug Enforcement Agency ID #',
+    )
+    license_ids = fields.One2many(
+        string='Licenses',
+        comodel_name='medical.pharmacy.license',
+        inverse_name='pharmacy_id',
     )
 
     @api.multi

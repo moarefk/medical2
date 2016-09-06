@@ -12,6 +12,9 @@
         'medical_base_us',
         'medical_pharmacy',
     ],
+    'data': [
+        'security/is.model.access.csv',
+    ],
     "website": "https://laslabs.com",
     "licence": "AGPL-3",
     'installable': True,
